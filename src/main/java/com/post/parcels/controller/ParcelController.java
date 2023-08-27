@@ -1,8 +1,6 @@
 package com.post.parcels.controller;
 
-import com.post.parcels.model.dto.ArrivalParcelDto;
-import com.post.parcels.model.dto.DepartureParcelDto;
-import com.post.parcels.model.dto.RegisterParcelDto;
+import com.post.parcels.model.dto.*;
 import com.post.parcels.model.entity.Parcel;
 import com.post.parcels.model.entity.Transfer;
 import com.post.parcels.service.MainService;
@@ -30,30 +28,10 @@ public class ParcelController {
             produces = {"application/json"},
             consumes = {"application/json"}
     )
-    ResponseEntity<Parcel> registerParcel(
-            @NotNull @Valid @RequestBody RegisterParcelDto registerParcelDto
+    ResponseEntity<List<Parcel>> registerParcels(
+            @NotNull @Valid @RequestBody List<RegisterParcelDto> registerParcelDtoList
     ) {
-        return ResponseEntity.ok(mainService.registerParcel(registerParcelDto));
-    }
-
-    @RequestMapping(
-            method = RequestMethod.GET,
-            value = "/parcels/{parcel_id}/transfers",
-            produces = {"application/json"}
-    )
-    ResponseEntity<List<Transfer>> getParcelTransfers(
-            @PathVariable(value = "parcel_id") @NotNull @Valid Long parcelId
-    ) {
-        return ResponseEntity.ok(mainService.getParcelTransfers(parcelId));
-    }
-
-    @RequestMapping(
-            method = RequestMethod.GET,
-            value = "/parcels",
-            produces = {"application/json"}
-    )
-    ResponseEntity<List<Parcel>> getParcels(    ) {
-        return ResponseEntity.ok(mainService.getParcels());
+        return ResponseEntity.ok(mainService.registerParcels(registerParcelDtoList));
     }
 
     @RequestMapping(
@@ -85,13 +63,34 @@ public class ParcelController {
     @RequestMapping(
             method = RequestMethod.POST,
             value = "/parcels/{parcel_id}/receive",
-            consumes = {"application/json"},
             produces = {"application/json"}
     )
     ResponseEntity<Parcel> receive(
+            @PathVariable(value = "parcel_id") @NotNull @Valid Long parcelId,
+            @NotNull @Valid @RequestBody ReceiveParcelDto receiveParcelDto
+    ) {
+        return ResponseEntity.ok(mainService.receiveParcel(parcelId, receiveParcelDto));
+    }
+
+    @RequestMapping(
+            method = RequestMethod.GET,
+            value = "/parcels/{parcel_id}/history",
+            produces = {"application/json"}
+    )
+    ResponseEntity<ParcelHistoryDto> getParcelHistory(
             @PathVariable(value = "parcel_id") @NotNull @Valid Long parcelId
     ) {
-        return ResponseEntity.ok(mainService.receiveParcel(parcelId));
+        return ResponseEntity.ok(mainService.getParcelHistory(parcelId));
     }
+
+    @RequestMapping(
+            method = RequestMethod.GET,
+            value = "/parcels",
+            produces = {"application/json"}
+    )
+    ResponseEntity<List<Parcel>> getParcels() {
+        return ResponseEntity.ok(mainService.getParcels());
+    }
+
 
 }

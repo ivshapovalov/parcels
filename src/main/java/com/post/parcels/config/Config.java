@@ -15,4 +15,5 @@ public class Config {
         localeResolver.setDefaultLocale(Locale.ENGLISH);
         return localeResolver;
     }
+
 }

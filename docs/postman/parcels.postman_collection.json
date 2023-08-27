@@ -1,0 +1,832 @@
+{
+	"info": {
+		"_postman_id": "77eabca1-d764-428e-b9cb-15967baf432a",
+		"name": "parcels",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21643452"
+	},
+	"item": [
+		{
+			"name": "api",
+			"item": [
+				{
+					"name": "registerParcels",
+					"item": [
+						{
+							"name": "Ok",
+							"item": [
+								{
+									"name": "registerParcelsOneOk",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "[\r\n    {\r\n        \"parcel_type\":\"Посылка\",\r\n        \"acceptance_index\":\"000001\",\r\n        \"receiver_address\":\"Moscow\",\r\n        \"receiver_name\":\"Alex\",\r\n        \"receiver_index\":\"000002\"    \r\n    }\r\n]",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080/parcels",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"parcels"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "registerParcelsTwoOk",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "                   [\r\n                        {\r\n                            \"parcel_type\":\"Посылка\",\r\n                            \"acceptance_index\":\"000001\",\r\n                            \"receiver_address\":\"Moscow\",\r\n                            \"receiver_name\":\"Alex\",\r\n                            \"receiver_index\":\"000002\"\r\n                               \r\n                        },\r\n                        {\r\n                            \"parcel_type\":\"Бандероль\",\r\n                            \"acceptance_index\":\"000002\",\r\n                            \"receiver_address\":\"Kursk\",\r\n                            \"receiver_name\":\"Jack\",\r\n                            \"receiver_index\":\"000003\"\r\n                        }                        \r\n                    ]",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080/parcels",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"parcels"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Invalid",
+							"item": [
+								{
+									"name": "registerParcelsWhenFieldsAreEmpty",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "[\r\n    {\r\n    }\r\n]",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080/parcels",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"parcels"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "registerParcelsWhenIndicesIsInvalid",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "[    \r\n    {\r\n        \"parcel_type\":\"Посылка\",\r\n        \"acceptance_index\":\"00000001\",\r\n        \"receiver_address\":\"Moscow\",\r\n        \"receiver_name\":\"Alex\",\r\n        \"receiver_index\":\"0010\"\r\n    }      \r\n]",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080/parcels",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"parcels"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "registerParcelsWhenPostalOfficeNotFoundInvalid",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "[    \r\n    {\r\n        \"parcel_type\":\"Посылка\",\r\n        \"acceptance_index\":\"000001\",\r\n        \"receiver_address\":\"Moscow\",\r\n        \"receiver_name\":\"Alex\",\r\n        \"receiver_index\":\"000010\"\r\n    }      \r\n]",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080/parcels",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"parcels"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "registerParcelsWhenParcelTypeIsInvalid",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "[    \r\n    {\r\n        \"parcel_type\":\"Конверт\",\r\n        \"acceptance_index\":\"000001\",\r\n        \"receiver_address\":\"Moscow\",\r\n        \"receiver_name\":\"Alex\",\r\n        \"receiver_index\":\"000010\"\r\n    }      \r\n]",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080/parcels",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"parcels"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "departParcel",
+					"item": [
+						{
+							"name": "Ok",
+							"item": [
+								{
+									"name": "departParcelOk",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{    \r\n    \"departure_index\":\"000001\",\r\n    \"arrival_index\":\"000002\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080/parcels/1/depart",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"parcels",
+												"1",
+												"depart"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Invalid",
+							"item": [
+								{
+									"name": "departParcelWhenFieldsAreNull",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{    \r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080/parcels/1/depart",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"parcels",
+												"1",
+												"depart"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "departParcelWhenIndexFieldsNotMatchPattern",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{    \r\n    \"departure_index\":\"0000001\",\r\n    \"arrival_index\":\"0002\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080/parcels/1/depart",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"parcels",
+												"1",
+												"depart"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "departParcelWhenParcelNotExists",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{    \r\n    \"departure_index\":\"000001\",\r\n    \"arrival_index\":\"000002\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080/parcels/1000000/depart",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"parcels",
+												"1000000",
+												"depart"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "departParcelWhenPostalOfficeNotExists",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{    \r\n    \"departure_index\":\"100001\",\r\n    \"arrival_index\":\"000002\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080/parcels/2/depart",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"parcels",
+												"2",
+												"depart"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "departParcelWhenParcelNotAtPostalOffice",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{    \r\n    \"departure_index\":\"000004\",\r\n    \"arrival_index\":\"000002\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080/parcels/1/depart",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"parcels",
+												"1",
+												"depart"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "arrive",
+					"item": [
+						{
+							"name": "Ok",
+							"item": [
+								{
+									"name": "arriveParcelOk",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{    \r\n    \"arrival_index\":\"000002\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080/parcels/1/arrive",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"parcels",
+												"1",
+												"arrive"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Invalid",
+							"item": [
+								{
+									"name": "arriveParcelWhenFieldsAreNull",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{    \r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080/parcels/1/arrive",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"parcels",
+												"1",
+												"arrive"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "arriveParcelWhenParcelNotExists",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{    \r\n    \"arrival_index\":\"000002\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080/parcels/1000000/arrive",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"parcels",
+												"1000000",
+												"arrive"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "arriveParcelWhenIndexFieldsNotMatchPattern",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{    \r\n    \"arrival_index\":\"0002\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080/parcels/1/arrive",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"parcels",
+												"1",
+												"arrive"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "arriveParcelWhenPostalOfficeNotExists",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{   \r\n    \"arrival_index\":\"100002\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080/parcels/2/arrive",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"parcels",
+												"2",
+												"arrive"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "arriveParcelWhenParcelNotInTransit",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{    \r\n    \"arrival_index\":\"000003\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080/parcels/2/arrive",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"parcels",
+												"2",
+												"arrive"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "receive",
+					"item": [
+						{
+							"name": "Ok",
+							"item": [
+								{
+									"name": "receiveParcelOk",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"receiver_index\":\"000002\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080/parcels/1/receive",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"parcels",
+												"1",
+												"receive"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Invalid",
+							"item": [
+								{
+									"name": "receiveParcelWhenParcelNotExists",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"receiver_index\":\"000002\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080/parcels/3/receive",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"parcels",
+												"3",
+												"receive"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "receiveParcelWhenPostalOfficeNotExists",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"receiver_index\":\"100002\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080/parcels/1/receive",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"parcels",
+												"1",
+												"receive"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "receiveParcelWhenParcelNotAtDestinationPostalOffice Copy",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"receiver_index\":\"000003\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080/parcels/1/receive",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"parcels",
+												"1",
+												"receive"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "getParcels",
+					"item": [
+						{
+							"name": "getParcels",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/parcels",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"parcels"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "getParcelHistory",
+					"item": [
+						{
+							"name": "getParcelHistoryOk",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/parcels/1/history",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"parcels",
+										"1",
+										"history"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "registerPostalOffices",
+					"item": [
+						{
+							"name": "registerPostalOffices",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n    {\r\n        \"address\": \"Moscow-000001\",\r\n        \"index\": \"000001\",\r\n        \"name\": \"Moscow-000001\"\r\n    },\r\n    {\r\n        \"address\": \"Moscow-000002\",\r\n        \"index\": \"000002\",\r\n        \"name\": \"Moscow-000002\"\r\n    },\r\n    {\r\n        \"address\": \"Moscow-000003\",\r\n        \"index\": \"000003\",\r\n        \"name\": \"Moscow-000003\"\r\n    },\r\n    {\r\n        \"address\": \"Moscow-000004\",\r\n        \"index\": \"000004\",\r\n        \"name\": \"Moscow-000004\"\r\n    },\r\n        {\r\n        \"address\": \"Moscow-00005\",\r\n        \"index\": \"000005\",\r\n        \"name\": \"Moscow-00005\"\r\n    }\r\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/postalOffices",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"postalOffices"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "swagger-ui",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/swagger-ui/index.html",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"swagger-ui",
+						"index.html"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api-docs",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    {\r\n        \"address\": \"Moscow-000001\",\r\n        \"index\": \"000001\",\r\n        \"name\": \"Moscow-000001\"\r\n    },\r\n    {\r\n        \"address\": \"Moscow-000002\",\r\n        \"index\": \"000002\",\r\n        \"name\": \"Moscow-000002\"\r\n    },\r\n    {\r\n        \"address\": \"Moscow-000003\",\r\n        \"index\": \"000003\",\r\n        \"name\": \"Moscow-000003\"\r\n    },\r\n    {\r\n        \"address\": \"Moscow-000004\",\r\n        \"index\": \"000004\",\r\n        \"name\": \"Moscow-000004\"\r\n    },\r\n        {\r\n        \"address\": \"Moscow-00005\",\r\n        \"index\": \"000005\",\r\n        \"name\": \"Moscow-00005\"\r\n    }\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/v3/api-docs",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v3",
+						"api-docs"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

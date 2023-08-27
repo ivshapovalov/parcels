@@ -1,6 +1,11 @@
-FROM openjdk:17.0.1-jdk-slim
+FROM gradle:8.3.0-jdk17-alpine AS BUILD_STAGE
+COPY --chown=gradle:gradle . /home/gradle
+RUN gradle clean test build || return 1
 
-ARG JAR_FILE=/opt/app/build/libs/*SNAPSHOT.jar
+FROM tomcat:10.1.12-jdk17-temurin
+RUN rm -rf /usr/local/tomcat/webapps/*
+
+ARG WAR_FILE=/opt/app/build/libs/parcels.war
 
 WORKDIR /opt/app
 
@@ -10,13 +15,14 @@ ENV POSTGRES_DB=postgres
 ENV POSTGRES_USER=postgres
 ENV POSTGRES_PASSWORD=postgres
 
+ENV JAVA_OPTS="-Dspring.profiles.active=production"
+
 EXPOSE 8080
 
 ENV TZ="Europe/London"
 
-COPY . /opt/app
+COPY --from=BUILD_STAGE /home/gradle/build/libs/*SNAPSHOT.war $WAR_FILE
 
-RUN chmod u+x /opt/app/gradlew && /opt/app/gradlew clean -x test build \
-  && cp ${JAR_FILE} /opt/app/yandex-lavka.jar
-ENTRYPOINT ["java", "-Dspring.profiles.active=production", "-jar", "yandex-lavka.jar"]
+RUN cp ${WAR_FILE} /usr/local/tomcat/webapps/ROOT.war
 
+CMD ["catalina.sh","run"]

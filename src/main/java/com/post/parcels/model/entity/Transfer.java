@@ -1,7 +1,7 @@
 package com.post.parcels.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
@@ -20,46 +20,42 @@ public class Transfer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @JsonProperty("transfer_id")
-    private long id;
-
-    @Valid
-    @Column(name = "arrival_time", nullable = false)
-    @JsonProperty("arrival_time")
-    private OffsetDateTime arrivalTime;
+    private Long id;
 
     @Valid
     @NotNull
-    @Column(name = "departure_time", nullable = false)
-    @JsonProperty("departure_time")
-    private OffsetDateTime departureTime;
+    @Column(name = "departure_date", nullable = false)
+    @JsonProperty("departure_date")
+    private OffsetDateTime departureDate;
 
     @Valid
-    @ManyToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
+    @Column(name = "arrival_date")
+    @JsonProperty("arrival_date")
+    private OffsetDateTime arrivalDate;
+
+    @Valid
+    @NotNull
+    @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "parcel_id", referencedColumnName = "id")
-    @JsonIgnore
     @JsonBackReference
     private Parcel parcel;
 
     @Valid
     @NotNull
-    @ManyToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
-    @JoinColumn(name = "index_sender", referencedColumnName = "index")
-    @JsonIgnore
-    @JsonBackReference
-    @JsonProperty("index_sender")
-    private PostalOffice sender;
+    @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @JoinColumn(name = "departure_index", referencedColumnName = "index")
+    @JsonManagedReference
+    @JsonProperty("departure_index")
+    private PostalOffice departurePostalOffice;
 
     @Valid
     @NotNull
-    @ManyToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
-    @JoinColumn(name = "index_receiver", referencedColumnName = "index")
-    @JsonIgnore
-    @JsonBackReference
-    @JsonProperty("index_receiver")
-    private PostalOffice receiver;
+    @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @JoinColumn(name = "arrival_index", referencedColumnName = "index")
+    @JsonManagedReference
+    @JsonProperty("arrival_index")
+    private PostalOffice arrivalPostalOffice;
 
     public Transfer() {
     }
-
-
 }

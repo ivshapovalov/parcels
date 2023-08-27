@@ -9,7 +9,5 @@ import java.util.List;
 
 @Repository
 public interface TransferRepository extends JpaRepository<Transfer, Long> {
-    List<Transfer> findByParcel(Parcel parcel);
-
-    List<Transfer> findByParcelIsAndArrivalTimeIsNull(Parcel parcel);
+    List<Transfer> findByParcelIsAndArrivalDateIsNull(Parcel parcel);
 }

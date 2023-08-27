@@ -11,7 +11,6 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 @EnableAspectJAutoProxy
 @EntityScan(basePackages = {"com.post.parcels.model.entity"})
 public class ParcelsApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(ParcelsApplication.class, args);
     }

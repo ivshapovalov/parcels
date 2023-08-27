@@ -1,0 +1,21 @@
+databaseChangeLog:
+  - changeSet:
+      id: 4
+      author: Ivan
+      changes:
+        - sqlFile:
+            dbms: 'postgresql'
+            encoding: "utf8"
+            endDelimiter: \nGO
+            splitStatements: true
+            path: "db/changelog/changeset/v.0/04-populate-postal-offices.sql"
+            stripComments: true
+      rollback:
+        - sqlFile:
+            dbms: 'postgresql'
+            encoding: "utf8"
+            endDelimiter: \nGO
+            splitStatements: true
+            path: "db/changelog/changeset/v.0/04-truncate-postal-offices.sql"
+            stripComments: true
+

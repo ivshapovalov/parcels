@@ -1,7 +1,6 @@
 package com.post.parcels.exceptions;
 
-import io.github.resilience4j.ratelimiter.RequestNotPermitted;
-import jakarta.servlet.http.HttpServletRequest;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.java.Log;
@@ -14,29 +13,19 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
-import static java.lang.String.format;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RestControllerAdvice
 @Log
 class ExceptionHandlerAdvice {
+    static final Pattern ENUM_VALIDATION_PATTERN = Pattern.compile("from String \\\"(?<actual>[^\\]]*)\\\": not one of the values accepted for Enum class: \\[(?<expected>[^\\]]*)\\]");
 
-    @ExceptionHandler(RequestNotPermitted.class)
-    @ResponseStatus(HttpStatus.TOO_MANY_REQUESTS)
-    public String handleRequestNotPermitted(RequestNotPermitted ex, HttpServletRequest request) {
-        log.warning(format("Request to path '%s' is blocked due to rate-limiting. %s",
-                request.getRequestURI(), ex.getMessage()));
-        return "Too many requests";
-    }
-
-    @ExceptionHandler(
-            {ParcelNotFoundException.class,
-                    PostalOfficeNotFoundException.class,
-                    ManyActiveTransfersFoundException.class,
-                    ActiveTransferNotFoundException.class})
+    @ExceptionHandler({BusinessException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     String handleRepositoryExceptionHandler(BusinessException ex) {
         return ex.getMessage();
@@ -57,8 +46,15 @@ class ExceptionHandlerAdvice {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public String handleHttpMessageNotReadableException(
-            HttpMessageNotReadableException ex) {
+    public String handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
+        if (ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof DateTimeParseException) {
+            return ex.getCause().getCause().getMessage();
+        } else if (ex.getCause() != null && ex.getCause() instanceof InvalidFormatException) {
+            Matcher matcher = ENUM_VALIDATION_PATTERN.matcher(ex.getCause().getMessage());
+            if (matcher.find() && matcher.groupCount() == 2) {
+                return String.format("Enum value '%s' should be: '%s'", matcher.group("actual"), matcher.group("expected"));
+            }
+        }
         return ex.getMessage();
     }
 
